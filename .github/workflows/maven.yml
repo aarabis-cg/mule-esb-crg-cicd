@@ -51,22 +51,6 @@ jobs:
               "url": "http://0.0.0.0/"
             }
           ]
-        profiles: >
-          [
-            {
-              "id": "crg",
-              "repositories": [
-                {
-                  "id": "anypoint-exchange-v3",
-                  "url": "https://maven.anypoint.mulesoft.com/api/v3/organizations/58352764-d415-4032-8943-d794cfb602ba/maven",
-                  "layout": "default"
-                }
-              ]
-            }
-          ]
-        active_profiles: >
-          [
-            "crg"
-          ]
+        repositories: '[{ "id": "anypoint-exchange-v3", "url": "https://maven.anypoint.mulesoft.com/api/v3/organizations/58352764-d415-4032-8943-d794cfb602ba/maven" }]'
     - name: Build with Maven
       run: mvn -B package --file pom.xml
