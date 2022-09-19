@@ -72,23 +72,23 @@ jobs:
               "url": "http://0.0.0.0/"
             }
           ]
-        repositories: >
+        profiles: >
           [
             {
-              "id": "anypoint-exchange-v3",
+              "id": "crg",
               "name": "Anypoint Exchange",
-              "url": "https://maven.anypoint.mulesoft.com/api/v3/organizations/58352764-d415-4032-8943-d794cfb602ba/maven",
-              "releases": {
-                "enabled": "true",
-                "updatePolicy": "always",
-                "checksumPolicy": "fail"
-              },
-              "snapshots": {
-                "enabled": "false",
-                "updatePolicy": "always",
-                "checksumPolicy": "fail"
-              }
+              "repositories": [
+                {
+                  "id": "anypoint-exchange-v3",
+                  "url": "https://maven.anypoint.mulesoft.com/api/v3/organizations/58352764-d415-4032-8943-d794cfb602ba/maven",
+                  "layout": "default"
+                }
+              ]
             }
+          ]
+        active_profiles: >
+          [
+            "crg"
           ]
     - name: Build with Maven
       run: mvn -B package --file pom.xml
