@@ -22,5 +22,49 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
+    - name: Generate settings.xml for Maven Builds
+      uses: whelk-io/maven-settings-xml-action@v20
+      with:
+        servers: >
+          [
+            {
+              "id": "anypoint-exchange-v3",
+              "username": "${env.ANYPOINT_USER}",
+              "password": "${env.ANYPOINT_PASSWORD}",
+              "configuration": {
+                "httpConfiguration": {
+                  "all": {
+                    "usePreemptive": "true"
+                  }
+                }
+              }
+            }
+          ]
+        mirrors: >
+          [
+            {
+              "id": "maven-default-http-blocker",
+              "mirrorOf": "dummy",
+              "url": "http://0.0.0.0/"
+            }
+          ]
+        repositories: >
+          [
+            {
+              "id": "anypoint-exchange-v3",
+              "name": "Anypoint Exchange",
+              "url": "https://maven.anypoint.mulesoft.com/api/v3/organizations/58352764-d415-4032-8943-d794cfb602ba/maven",
+              "releases": {
+                "enabled": "true",
+                "updatePolicy": "always",
+                "checksumPolicy": "fail"
+              },
+              "snapshots": {
+                "enabled": "false",
+                "updatePolicy": "always",
+                "checksumPolicy": "fail"
+              }
+            }
+          ]
     - name: Build with Maven
       run: mvn -B package --file pom.xml
