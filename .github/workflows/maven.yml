@@ -30,38 +30,17 @@ jobs:
             {
               "id": "anypoint-exchange-v2",
               "username": "${env.ANYPOINT_USER}",
-              "password": "${env.ANYPOINT_PASSWORD}",
-              "configuration": {
-                "httpConfiguration": {
-                  "all": {
-                    "usePreemptive": "true"
-                  }
-                }
-              }
+              "password": "${env.ANYPOINT_PASSWORD}"
             },
             {
               "id": "anypoint-exchange-v3",
               "username": "${env.ANYPOINT_USER}",
-              "password": "${env.ANYPOINT_PASSWORD}",
-              "configuration": {
-                "httpConfiguration": {
-                  "all": {
-                    "usePreemptive": "true"
-                  }
-                }
-              }
+              "password": "${env.ANYPOINT_PASSWORD}"
             },
             {
               "id": "crg-exchange-repository",
               "username": "${env.ANYPOINT_USER}",
-              "password": "${env.ANYPOINT_PASSWORD}",
-              "configuration": {
-                "httpConfiguration": {
-                  "all": {
-                    "usePreemptive": "true"
-                  }
-                }
-              }
+              "password": "${env.ANYPOINT_PASSWORD}"
             }
           ]
         mirrors: >
