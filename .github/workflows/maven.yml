@@ -52,5 +52,7 @@ jobs:
             }
           ]
         repositories: '[{ "id": "anypoint-exchange-v3", "url": "https://maven.anypoint.mulesoft.com/api/v3/organizations/58352764-d415-4032-8943-d794cfb602ba/maven" }]'
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
+    - name: View settings.xml
+      run: cat /home/runner/.m2/settings.xml
+    # - name: Build with Maven
+    #   run: mvn -B package --file pom.xml
