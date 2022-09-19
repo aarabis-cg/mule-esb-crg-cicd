@@ -29,18 +29,18 @@ jobs:
           [
             {
               "id": "anypoint-exchange-v2",
-              "username": "${env.ANYPOINT_USER}",
-              "password": "${env.ANYPOINT_PASSWORD}"
+              "username": "$ANYPOINT_USER",
+              "password": "$ANYPOINT_PASSWORD"
             },
             {
               "id": "anypoint-exchange-v3",
-              "username": "${env.ANYPOINT_USER}",
-              "password": "${env.ANYPOINT_PASSWORD}"
+              "username": "$ANYPOINT_USER",
+              "password": "$ANYPOINT_PASSWORD"
             },
             {
               "id": "crg-exchange-repository",
-              "username": "${env.ANYPOINT_USER}",
-              "password": "${env.ANYPOINT_PASSWORD}"
+              "username": "$ANYPOINT_USER",
+              "password": "$ANYPOINT_PASSWORD"
             }
           ]
         mirrors: >
