@@ -55,7 +55,6 @@ jobs:
           [
             {
               "id": "crg",
-              "name": "Anypoint Exchange",
               "repositories": [
                 {
                   "id": "anypoint-exchange-v3",
