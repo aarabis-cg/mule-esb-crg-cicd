@@ -23,9 +23,10 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Create Maven Master Password
-      run: masterpass=$(mvn --encrypt-master-password "${{secrets.MAVEN_MASTER_PASSWORD}}")
+      id: set_master_password
+      run: echo "::set-output name=masterpass::$(mvn --encrypt-master-password '${{secrets.MAVEN_MASTER_PASSWORD}}')"
     - name: Create Maven settings-security.xml
-      run: echo "<settingsSecurity><master>${masterpass}</master></settingsSecurity>" > ~/.m2/settings-security.xml
+      run: echo "<settingsSecurity><master>${{steps.set_master_password.outputs.masterpass}}</master></settingsSecurity>" > ~/.m2/settings-security.xml
     - name: View settings-security.xml
       run: cat ~/.m2/settings-security.xml
     - name: Encrypt Anypoint Platform Password
