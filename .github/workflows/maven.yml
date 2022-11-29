@@ -24,44 +24,38 @@ jobs:
         cache: maven
     - name: Create Maven Master Password
       id: set_master_password
-      run: echo "masterpass=$(mvn --encrypt-master-password '${{secrets.MAVEN_MASTER_PASSWORD}}')" >> $GITHUB_OUTPUT
+      run: echo "MVN_MASTER_PASS=$(mvn --encrypt-master-password '${{secrets.MAVEN_MASTER_PASSWORD}}')" >> $GITHUB_OUTPUT
     - name: Create Maven settings-security.xml
-      run: echo "<settingsSecurity><master>${{steps.set_master_password.outputs.masterpass}}</master></settingsSecurity>" > ~/.m2/settings-security.xml
-    - name: View settings-security.xml
-      run: cat ~/.m2/settings-security.xml
+      run: echo "<settingsSecurity><master>${{steps.set_master_password.outputs.MVN_MASTER_PASS}}</master></settingsSecurity>" > ~/.m2/settings-security.xml
     - name: Encrypt Anypoint Platform Password
-      run: ANYPOINT_PASSWORD_ENCRYPTED=$(mvn --encrypt-password "${{secrets.ANYPOINT_PASSWORD}}")
-    # - name: Generate settings.xml for Maven Builds
-    #   uses: whelk-io/maven-settings-xml-action@v20
-    #   with:
-    #     servers: >
-    #       [
-    #         {
-    #           "id": "anypoint-exchange-v2",
-    #           "username": "${{secrets.ANYPOINT_USER}}",
-    #           "password": "${{secrets.ANYPOINT_PASSWORD}}"
-    #         },
-    #         {
-    #           "id": "anypoint-exchange-v3",
-    #           "username": "${{secrets.ANYPOINT_USER}}",
-    #           "password": "${{secrets.ANYPOINT_PASSWORD}}"
-    #         },
-    #         {
-    #           "id": "crg-exchange-repository",
-    #           "username": "${{secrets.ANYPOINT_USER}}",
-    #           "password": "${{secrets.ANYPOINT_PASSWORD}}"
-    #         }
-    #       ]
-    #     mirrors: >
-    #       [
-    #         {
-    #           "id": "maven-default-http-blocker",
-    #           "mirrorOf": "dummy",
-    #           "url": "http://0.0.0.0/"
-    #         }
-    #       ]
-    #     repositories: '[{ "id": "anypoint-exchange-v3", "url": "https://maven.anypoint.mulesoft.com/api/v3/organizations/58352764-d415-4032-8943-d794cfb602ba/maven" }]'
-    # - name: View settings.xml
-    #   run: cat /home/runner/.m2/settings.xml
-    # - name: Build with Maven
-    #   run: mvn -B package --file pom.xml
+      id: encrypt_ap_pass
+      run: echo "ANYPOINT_PASSWORD_ENCRYPTED=$(mvn --encrypt-password '${{secrets.ANYPOINT_PASSWORD}}')" >> $GITHUB_OUTPUT
+    - name: Generate settings.xml for Maven Builds
+      uses: whelk-io/maven-settings-xml-action@v20
+      with:
+        servers: >
+          [
+            {
+              "id": "anypoint-exchange-v2",
+              "username": "${{secrets.ANYPOINT_USER}}",
+              "password": "${{steps.encrypt_ap_pass.outputs.ANYPOINT_PASSWORD_ENCRYPTED}}"
+            },
+            {
+              "id": "anypoint-exchange-v3",
+              "username": "${{secrets.ANYPOINT_USER}}",
+              "password": "${{steps.encrypt_ap_pass.outputs.ANYPOINT_PASSWORD_ENCRYPTED}}"
+            }
+          ]
+        mirrors: >
+          [
+            {
+              "id": "maven-default-http-blocker",
+              "mirrorOf": "dummy",
+              "url": "http://0.0.0.0/"
+            }
+          ]
+        repositories: '[{ "id": "anypoint-exchange-v3", "url": "https://maven.anypoint.mulesoft.com/api/v3/organizations/58352764-d415-4032-8943-d794cfb602ba/maven" }]'
+    - name: View settings.xml
+      run: cat /home/runner/.m2/settings.xml
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
