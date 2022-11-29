@@ -23,17 +23,19 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Create Maven Master Password
-      run: masterpass=$(mvn --encrypt-master-password "${{secrets.MAVEN_MASTER_PASSWORD}}")
+      run: |
+        masterpass=$(mvn --encrypt-master-password "${{secrets.MAVEN_MASTER_PASSWORD}}")
+        echo $masterpass
     - name: Create Maven settings-security.xml
       run: |
         touch ~/.m2/settings-security.xml
         echo "<settingsSecurity>\n\
           <master>$masterpass</master>\n\
         </settingsSecurity>" > ~/.m2/settings-security.xml
-    - name: Encrypt Anypoint Platform Password
-      run: ANYPOINT_PASSWORD_ENCRYPTED=$(mvn --encrypt-password "${{secrets.ANYPOINT_PASSWORD}}")
     - name: View settings-security.xml
       run: cat ~/.m2/settings-security.xml
+    - name: Encrypt Anypoint Platform Password
+      run: ANYPOINT_PASSWORD_ENCRYPTED=$(mvn --encrypt-password "${{secrets.ANYPOINT_PASSWORD}}")
     # - name: Generate settings.xml for Maven Builds
     #   uses: whelk-io/maven-settings-xml-action@v20
     #   with:
