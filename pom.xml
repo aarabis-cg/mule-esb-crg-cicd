@@ -34,13 +34,13 @@
 	</build>
 
 	<dependencies>
-		<dependency>
+<!-- 		<dependency>
 			<groupId>58352764-d415-4032-8943-d794cfb602ba</groupId>
 			<artifactId>crc-domain</artifactId>
 			<version>1.0.0</version>
 			<classifier>mule-domain</classifier>
 			<scope>custom</scope>
-		</dependency>
+		</dependency> -->
 		
 	</dependencies>
 
