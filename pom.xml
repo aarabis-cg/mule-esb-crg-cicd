@@ -30,17 +30,29 @@
 			<plugin>
 				<groupId>org.mule.tools.maven</groupId>
 				<artifactId>mule-maven-plugin</artifactId>
-				<version>${mule.maven.plugin.version}</version>
+				<version>3.7.1</version>
 				<extensions>true</extensions>
+				<configuration>
+					<armDeployment>
+						<muleVersion>${app.runtime}</muleVersion>
+						<server>anypoint-exchange-v3</server>
+						<target>cg-cds-mulesoft-cluster</target>
+						<targetType>cluster</targetType>
+						<environment>DEV</environment>
+					</armDeployment>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
 
 	<dependencies>
-		<!-- <dependency> <groupId>58352764-d415-4032-8943-d794cfb602ba</groupId> 
-			<artifactId>crc-domain</artifactId> <version>1.2.1</version> <classifier>mule-domain</classifier> 
-			<scope>provided</scope> </dependency> -->
-
+		<dependency>
+			<groupId>58352764-d415-4032-8943-d794cfb602ba</groupId>
+			<artifactId>crc-domain</artifactId>
+			<version>1.2.1</version>
+			<classifier>mule-domain</classifier>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<repositories>
@@ -51,6 +63,15 @@
 			<layout>default</layout>
 		</repository>
 	</repositories>
+
+	<distributionManagement>
+		<repository>
+			<id>PrivateExchangeRepository</id>
+			<name>Private Exchange Repository</name>
+			<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/58352764-d415-4032-8943-d794cfb602ba/maven</url>
+			<layout>default</layout>
+		 </repository>
+	</distributionManagement>
 
 	<pluginRepositories>
 		<pluginRepository>
