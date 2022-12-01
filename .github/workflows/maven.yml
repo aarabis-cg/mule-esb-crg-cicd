@@ -57,7 +57,7 @@ jobs:
     - name: Build with Maven
       id: build
       run: |
-        mvn -B package --file pom.xml
+        mvn -B clean package --file pom.xml
         echo "buildpath=$(pwd)" >> $GITHUB_OUTPUT
     - name: Request Platform Auth
       id: 'auth'
