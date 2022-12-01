@@ -33,8 +33,9 @@ jobs:
     - name: Checkout Domain
       uses: actions/checkout@v3
       with:
-        repository: 'centraldigital/crg-domain.git'
+        repository: centraldigital/crg-domain
         ref: 'master'
+        token: ${{ secrets.GH_PAT }}
     - name: Build and Install Domain
       run: |
         cd crg-domain
