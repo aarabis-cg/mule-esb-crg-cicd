@@ -41,26 +41,6 @@ jobs:
       run: |
         cd crg-domain
         mvn clean install
-    - name: Generate settings.xml for Maven Builds
-      uses: whelk-io/maven-settings-xml-action@v20
-      with:
-        servers: >
-          [
-            {
-              "id": "PrivateExchangeRepository",
-              "username": "~~~Client~~~",
-              "password": "${{ secrets.CA_CLIENT_ID}}~?~${{secrets.CA_CLIENT_SECRET }}"
-            }
-          ]
-        mirrors: >
-          [
-            {
-              "id": "maven-default-http-blocker",
-              "mirrorOf": "dummy",
-              "url": "http://0.0.0.0/"
-            }
-          ]
-        repositories: '[{ "id": "PrivateExchangeRepository", "url": "https://maven.anypoint.mulesoft.com/api/v3/organizations/58352764-d415-4032-8943-d794cfb602ba/maven" }]'
     - name: Build with Maven
       id: build
       run: |
