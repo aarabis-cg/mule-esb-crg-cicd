@@ -7,7 +7,7 @@ env:
   ORG_ID: 58352764-d415-4032-8943-d794cfb602ba
   ENV_ID: 0d631087-dc36-4999-a60c-14c4b8143e01
   TARGET_ID: 18247396
-  APP_ID: 13129057
+  APP_ID: 13129423
   APP_NAME: mule-esb-crg-cicd-demo
   ARTIFACT_NAME: mule-esb-crg-cicd-demo-mule-application.jar
 
