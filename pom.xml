@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project
-	xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>58352764-d415-4032-8943-d794cfb602ba</groupId>
@@ -21,6 +18,7 @@
 	</properties>
 
 	<build>
+		<finalName>mule-esb-crg-cicd-demo</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -30,17 +28,8 @@
 			<plugin>
 				<groupId>org.mule.tools.maven</groupId>
 				<artifactId>mule-maven-plugin</artifactId>
-				<version>3.7.1</version>
+				<version>${mule.maven.plugin.version}</version>
 				<extensions>true</extensions>
-				<configuration>
-					<armDeployment>
-						<muleVersion>${app.runtime}</muleVersion>
-						<server>anypoint-exchange-v3</server>
-						<target>cg-cds-mulesoft-cluster</target>
-						<targetType>cluster</targetType>
-						<environment>DEV</environment>
-					</armDeployment>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
@@ -49,29 +38,27 @@
 		<dependency>
 			<groupId>58352764-d415-4032-8943-d794cfb602ba</groupId>
 			<artifactId>crc-domain</artifactId>
-			<version>1.2.1</version>
+			<version>1.0.1</version>
 			<classifier>mule-domain</classifier>
 			<scope>provided</scope>
 		</dependency>
+		
 	</dependencies>
 
 	<repositories>
 		<repository>
 			<id>anypoint-exchange-v3</id>
 			<name>Anypoint Exchange</name>
-			<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/58352764-d415-4032-8943-d794cfb602ba/maven</url>
+			<url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
+			<layout>default</layout>
+		</repository>
+		<repository>
+			<id>mulesoft-releases</id>
+			<name>MuleSoft Releases Repository</name>
+			<url>https://repository.mulesoft.org/releases/</url>
 			<layout>default</layout>
 		</repository>
 	</repositories>
-
-	<distributionManagement>
-		<repository>
-			<id>PrivateExchangeRepository</id>
-			<name>Private Exchange Repository</name>
-			<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/58352764-d415-4032-8943-d794cfb602ba/maven</url>
-			<layout>default</layout>
-		 </repository>
-	</distributionManagement>
 
 	<pluginRepositories>
 		<pluginRepository>
