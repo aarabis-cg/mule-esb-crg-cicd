@@ -58,7 +58,7 @@ jobs:
       id: build
       run: |
         mvn -B package --file pom.xml
-        echo "::set-output buildpath=$(pwd)" >> $GITHUB_OUTPUT
+        echo "buildpath=$(pwd)" >> $GITHUB_OUTPUT
     - name: Request Platform Auth
       id: 'auth'
       uses: fjogeleit/http-request-action@v1
