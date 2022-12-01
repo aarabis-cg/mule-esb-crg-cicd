@@ -7,6 +7,7 @@ env:
   ORG_ID: 58352764-d415-4032-8943-d794cfb602ba
   ENV_ID: 0d631087-dc36-4999-a60c-14c4b8143e01
   TARGET_ID: 18247396
+  APP_ID: 13129057
   APP_NAME: mule-esb-crg-cicd-demo
   ARTIFACT_NAME: mule-esb-crg-cicd-demo-mule-application.jar
 
@@ -55,7 +56,10 @@ jobs:
           ]
         repositories: '[{ "id": "anypoint-exchange-v3", "url": "https://maven.anypoint.mulesoft.com/api/v3/organizations/58352764-d415-4032-8943-d794cfb602ba/maven" }]'
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      id: build
+      run: |
+        mvn -B clean package --file pom.xml
+        echo "buildpath=$(pwd)" >> $GITHUB_OUTPUT
     - name: Request Platform Auth
       id: 'auth'
       uses: fjogeleit/http-request-action@v1
@@ -67,9 +71,10 @@ jobs:
       id: 'deploy'
       uses: fjogeleit/http-request-action@v1
       with:
-        url: 'https://anypoint.mulesoft.com/hybrid/api/v1/applications'
-        method: 'POST'
+        url: 'https://anypoint.mulesoft.com/hybrid/api/v1/applications/${{ env.APP_ID }}'
+        method: 'PATCH'
         bearerToken: ${{ fromJson(steps.auth.outputs.response).access_token }}
-        files: '{"file": "${{ env.GITHUB_WORKSPACE }}/target/$ARTIFACT_NAME"}'
-        data: '{"artifactName": "$APP_NAME", "targetId": "$TARGET_ID"}'
-        customHeaders: '{"X-ANYPNT-ORG-ID": "$ORG_ID", "X-ANYPNT-ENV-ID": "$ENV_ID" }'
+        files: '{"file": "${{ steps.build.outputs.buildpath }}/target/${{ env.ARTIFACT_NAME }}"}'
+        data: '{"artifactName": "${{ env.APP_NAME }}", "targetId": "${{ env.TARGET_ID }}"}'
+        customHeaders: '{"X-ANYPNT-ORG-ID": "${{ env.ORG_ID }}", "X-ANYPNT-ENV-ID": "${{ env.ENV_ID }}" }'
+        timeout: 1800000
