@@ -22,6 +22,14 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
+    - name: Create Maven Master Password
+      id: set_master_password
+      run: echo "MVN_MASTER_PASS=$(mvn --encrypt-master-password '${{secrets.MAVEN_MASTER_PASSWORD}}')" >> $GITHUB_OUTPUT
+    - name: Create Maven settings-security.xml
+      run: echo "<settingsSecurity><master>${{steps.set_master_password.outputs.MVN_MASTER_PASS}}</master></settingsSecurity>" > ~/.m2/settings-security.xml
+    - name: Encrypt Anypoint Platform Password
+      id: encrypt_ap_pass
+      run: echo "ANYPOINT_PASSWORD_ENCRYPTED=$(mvn --encrypt-password '${{secrets.ANYPOINT_PASSWORD}}')" >> $GITHUB_OUTPUT
     - name: Generate settings.xml for Maven Builds
       uses: whelk-io/maven-settings-xml-action@v20
       with:
@@ -30,17 +38,12 @@ jobs:
             {
               "id": "anypoint-exchange-v2",
               "username": "${{secrets.ANYPOINT_USER}}",
-              "password": "${{secrets.ANYPOINT_PASSWORD}}"
+              "password": "${{steps.encrypt_ap_pass.outputs.ANYPOINT_PASSWORD_ENCRYPTED}}"
             },
             {
               "id": "anypoint-exchange-v3",
               "username": "${{secrets.ANYPOINT_USER}}",
-              "password": "${{secrets.ANYPOINT_PASSWORD}}"
-            },
-            {
-              "id": "crg-exchange-repository",
-              "username": "${{secrets.ANYPOINT_USER}}",
-              "password": "${{secrets.ANYPOINT_PASSWORD}}"
+              "password": "${{steps.encrypt_ap_pass.outputs.ANYPOINT_PASSWORD_ENCRYPTED}}"
             }
           ]
         mirrors: >
