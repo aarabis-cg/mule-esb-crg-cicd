@@ -36,12 +36,7 @@ jobs:
         servers: >
           [
             {
-              "id": "anypoint-exchange-v2",
-              "username": "~~~Client~~~",
-              "password": "${{ secrets.CA_CLIENT_ID}}~?~${{secrets.CA_CLIENT_SECRET }}"
-            },
-            {
-              "id": "anypoint-exchange-v3",
+              "id": "PrivateExchangeRepository",
               "username": "~~~Client~~~",
               "password": "${{ secrets.CA_CLIENT_ID}}~?~${{secrets.CA_CLIENT_SECRET }}"
             }
@@ -54,7 +49,7 @@ jobs:
               "url": "http://0.0.0.0/"
             }
           ]
-        repositories: '[{ "id": "anypoint-exchange-v3", "url": "https://maven.anypoint.mulesoft.com/api/v3/organizations/58352764-d415-4032-8943-d794cfb602ba/maven" }]'
+        repositories: '[{ "id": "PrivateExchangeRepository", "url": "https://maven.anypoint.mulesoft.com/api/v3/organizations/58352764-d415-4032-8943-d794cfb602ba/maven" }]'
     - name: Build with Maven
       id: build
       run: |
