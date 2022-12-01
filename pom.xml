@@ -42,7 +42,6 @@
 			<classifier>mule-domain</classifier>
 			<scope>provided</scope>
 		</dependency>
-		
 	</dependencies>
 
 	<repositories>
