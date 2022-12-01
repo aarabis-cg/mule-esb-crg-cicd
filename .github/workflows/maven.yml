@@ -33,7 +33,7 @@ jobs:
     - name: Checkout Domain
       uses: actions/checkout@v3
       with:
-        repository: 'centraldigital/crg-domain'
+        repository: 'centraldigital/crg-domain.git'
         ref: 'master'
     - name: Build and Install Domain
       run: |
