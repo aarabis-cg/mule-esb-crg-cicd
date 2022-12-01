@@ -77,3 +77,4 @@ jobs:
         files: '{"file": "${{ steps.build.outputs.buildpath }}/target/${{ env.ARTIFACT_NAME }}"}'
         data: '{"artifactName": "${{ env.APP_NAME }}", "targetId": "${{ env.TARGET_ID }}"}'
         customHeaders: '{"X-ANYPNT-ORG-ID": "${{ env.ORG_ID }}", "X-ANYPNT-ENV-ID": "${{ env.ENV_ID }}" }'
+        timeout: 1800000
