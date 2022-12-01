@@ -7,6 +7,7 @@ env:
   ORG_ID: 58352764-d415-4032-8943-d794cfb602ba
   ENV_ID: 0d631087-dc36-4999-a60c-14c4b8143e01
   TARGET_ID: 18247396
+  APP_ID: 13129057
   APP_NAME: mule-esb-crg-cicd-demo
   ARTIFACT_NAME: mule-esb-crg-cicd-demo-mule-application.jar
 
@@ -70,8 +71,8 @@ jobs:
       id: 'deploy'
       uses: fjogeleit/http-request-action@v1
       with:
-        url: 'https://anypoint.mulesoft.com/hybrid/api/v1/applications'
-        method: 'POST'
+        url: 'https://anypoint.mulesoft.com/hybrid/api/v1/applications/${{ env.APP_ID }}'
+        method: 'PATCH'
         bearerToken: ${{ fromJson(steps.auth.outputs.response).access_token }}
         files: '{"file": "${{ steps.build.outputs.buildpath }}/target/${{ env.ARTIFACT_NAME }}"}'
         data: '{"artifactName": "${{ env.APP_NAME }}", "targetId": "${{ env.TARGET_ID }}"}'
