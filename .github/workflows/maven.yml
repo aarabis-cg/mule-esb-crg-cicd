@@ -36,6 +36,7 @@ jobs:
         repository: centraldigital/crg-domain
         ref: 'master'
         token: ${{ secrets.GH_PAT }}
+        path: crg-domain
     - name: Build and Install Domain
       run: |
         cd crg-domain
