@@ -37,8 +37,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>58352764-d415-4032-8943-d794cfb602ba</groupId>
-			<artifactId>crc-domain</artifactId>
-			<version>1.0.1</version>
+			<artifactId>crg-domain</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
 			<classifier>mule-domain</classifier>
 			<scope>provided</scope>
 		</dependency>
