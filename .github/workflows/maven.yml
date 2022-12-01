@@ -70,6 +70,6 @@ jobs:
         url: 'https://anypoint.mulesoft.com/hybrid/api/v1/applications'
         method: 'POST'
         bearerToken: ${{ fromJson(steps.auth.outputs.response).access_token }}
-        files: '{"file": "${{ GITHUB_WORKSPACE }}/target/${{ env.ARTIFACT_NAME }}"}'
+        files: '{"file": "target/${{ env.ARTIFACT_NAME }}"}'
         data: '{"artifactName": "${{ env.APP_NAME }}", "targetId": "${{ env.TARGET_ID }}"}'
         customHeaders: '{"X-ANYPNT-ORG-ID": "${{ env.ORG_ID }}", "X-ANYPNT-ENV-ID": "${{ env.ENV_ID }}" }'
