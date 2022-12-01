@@ -71,5 +71,5 @@ jobs:
         method: 'POST'
         bearerToken: ${{ fromJson(steps.auth.outputs.response).access_token }}
         files: '{"file": "${{ env.GITHUB_WORKSPACE }}/target/$ARTIFACT_NAME"}'
-        data: '{"artifactName": "$APP_NAME", "targetId": "$TARGET_ID"}'
-        customHeaders: '{"X-ANYPNT-ORG-ID": "$ORG_ID", "X-ANYPNT-ENV-ID": "$ENV_ID" }'
+        data: '{"artifactName": "${{ env.APP_NAME }}", "targetId": "${{ env.TARGET_ID }}"}'
+        customHeaders: '{"X-ANYPNT-ORG-ID": "${{ env.ORG_ID }}", "X-ANYPNT-ENV-ID": "${{ env.ENV_ID }}" }'
