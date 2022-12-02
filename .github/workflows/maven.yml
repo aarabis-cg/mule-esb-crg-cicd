@@ -1,8 +1,6 @@
 # This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
-
 name: Java CI with Maven
-
 env:
   ORG_ID: 58352764-d415-4032-8943-d794cfb602ba
   ENV_ID: 0d631087-dc36-4999-a60c-14c4b8143e01
@@ -10,18 +8,14 @@ env:
   APP_ID: 13129423
   APP_NAME: mule-esb-crg-cicd-demo
   ARTIFACT_NAME: mule-esb-crg-cicd-demo-mule-application.jar
-
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 11
@@ -41,6 +35,26 @@ jobs:
       run: |
         cd crg-domain
         mvn clean install
+    - name: Generate settings.xml for Maven Builds
+      uses: whelk-io/maven-settings-xml-action@v20
+      with:
+        servers: >
+          [
+            {
+              "id": "PrivateExchangeRepository",
+              "username": "~~~Client~~~",
+              "password": "${{ secrets.CA_CLIENT_ID}}~?~${{secrets.CA_CLIENT_SECRET }}"
+            }
+          ]
+        mirrors: >
+          [
+            {
+              "id": "maven-default-http-blocker",
+              "mirrorOf": "dummy",
+              "url": "http://0.0.0.0/"
+            }
+          ]
+        repositories: '[{ "id": "PrivateExchangeRepository", "url": "https://maven.anypoint.mulesoft.com/api/v3/organizations/58352764-d415-4032-8943-d794cfb602ba/maven" }]'
     - name: Build with Maven
       id: build
       run: |
