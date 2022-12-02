@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="new-test-suite.xml" />
+	<munit:test name="new-test-suiteTest" doc:id="d5cdfdf4-7dea-44b1-b1b9-1f5dc392981c" >
+		<munit:execution >
+			<flow-ref doc:name="mule-esb-crg-cicdFlow" doc:id="c684756b-5b07-42f3-ba66-2d7c2f82598b" name="mule-esb-crg-cicdFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="payload" doc:id="8e3f5c1e-cfaa-47e0-a618-601454778a8d" actual="#[payload]" expected="Hello CI/CD from Github Actions"/>
+		</munit:validation>
+	</munit:test>
+
+</mule>
