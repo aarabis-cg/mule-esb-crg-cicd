@@ -24,6 +24,18 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
+    - name: Cache SonarCloud packages
+      uses: actions/cache@v1
+      with:
+        path: ~/.sonar/cache
+        key: ${{ runner.os }}-sonar
+        restore-keys: ${{ runner.os }}-sonar
+    - name: Cache Maven packages
+      uses: actions/cache@v1
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
     - name: Checkout Domain
       uses: actions/checkout@v3
       with:
@@ -55,10 +67,13 @@ jobs:
             }
           ]
         repositories: '[{ "id": "PrivateExchangeRepository", "url": "https://maven.anypoint.mulesoft.com/api/v3/organizations/58352764-d415-4032-8943-d794cfb602ba/maven" }]'
-    - name: Build with Maven
+    - name: Build and Analyze
+      env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       id: build
       run: |
-        mvn -B clean package --file pom.xml
+        mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=aarabis-cg_mule-esb-crg-cicd clean package --file pom.xm
         echo "buildpath=$(pwd)" >> $GITHUB_OUTPUT
     - name: Request Platform Auth
       id: 'auth'

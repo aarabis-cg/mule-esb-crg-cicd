@@ -15,6 +15,8 @@
 
 		<app.runtime>4.4.0-20220722</app.runtime>
 		<mule.maven.plugin.version>3.6.3</mule.maven.plugin.version>
+		<sonar.organization>aarabis-cg</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 
 	<build>
