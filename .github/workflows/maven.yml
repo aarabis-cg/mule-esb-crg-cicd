@@ -73,7 +73,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       id: build
       run: |
-        mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=aarabis-cg_mule-esb-crg-cicd clean package --file pom.xm
+        mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=aarabis-cg_mule-esb-crg-cicd clean package --file pom.xml
         echo "buildpath=$(pwd)" >> $GITHUB_OUTPUT
     - name: Request Platform Auth
       id: 'auth'
