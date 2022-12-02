@@ -37,8 +37,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>58352764-d415-4032-8943-d794cfb602ba</groupId>
-			<artifactId>crc-domain</artifactId>
-			<version>1.0.1</version>
+			<artifactId>crg-domain</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
 			<classifier>mule-domain</classifier>
 			<scope>provided</scope>
 		</dependency>
@@ -46,7 +46,7 @@
 
 	<repositories>
 		<repository>
-			<id>anypoint-exchange-v3</id>
+			<id>PrivateExchangeRepository</id>
 			<name>Anypoint Exchange</name>
 			<url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
 			<layout>default</layout>
