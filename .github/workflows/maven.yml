@@ -1,13 +1,7 @@
 # This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 name: Java CI with Maven
-env:
-  ORG_ID: 58352764-d415-4032-8943-d794cfb602ba
-  ENV_ID: 0d631087-dc36-4999-a60c-14c4b8143e01
-  TARGET_ID: 18247396
-  APP_ID: 13129423
-  APP_NAME: mule-esb-crg-cicd-demo
-  ARTIFACT_NAME: mule-esb-crg-cicd-demo-mule-application.jar
+  
 on:
   push:
     branches: [ "main" ]
@@ -53,9 +47,9 @@ jobs:
         servers: >
           [
             {
-              "id": "PrivateExchangeRepository",
-              "username": "~~~Client~~~",
-              "password": "${{ secrets.CA_CLIENT_ID}}~?~${{secrets.CA_CLIENT_SECRET }}"
+              "id": "MuleRepository",
+              "username": "${{ secrets.NEXUS_USERNAME}}",
+              "password": "${{ secrets.NEXUS_PASSWORD}}"
             }
           ]
         mirrors: >
@@ -66,30 +60,15 @@ jobs:
               "url": "http://0.0.0.0/"
             }
           ]
-        repositories: '[{ "id": "PrivateExchangeRepository", "url": "https://maven.anypoint.mulesoft.com/api/v3/organizations/58352764-d415-4032-8943-d794cfb602ba/maven" }]'
-    - name: Build and Analyze
+        repositories: '[{ "id": "MuleRepository", "url": "https://repository.mulesoft.org/nexus-ee/content/repositories/releases-ee/" }]'
+    - name: Build, Analyze and Deploy
       env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       id: build
       run: |
-        mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=aarabis-cg_mule-esb-crg-cicd clean package --file pom.xml
-        echo "buildpath=$(pwd)" >> $GITHUB_OUTPUT
-    - name: Request Platform Auth
-      id: 'auth'
-      uses: fjogeleit/http-request-action@v1
-      with:
-        url: 'https://anypoint.mulesoft.com/accounts/api/v2/oauth2/token'
-        method: 'POST'
-        data: '{"client_id": "${{ secrets.CA_CLIENT_ID }}", "client_secret": "${{ secrets.CA_CLIENT_SECRET }}", "grant_type": "client_credentials"}'
-    - name: Deploy using ARM REST API
-      id: 'deploy'
-      uses: fjogeleit/http-request-action@v1
-      with:
-        url: 'https://anypoint.mulesoft.com/hybrid/api/v1/applications/${{ env.APP_ID }}'
-        method: 'PATCH'
-        bearerToken: ${{ fromJson(steps.auth.outputs.response).access_token }}
-        files: '{"file": "${{ steps.build.outputs.buildpath }}/target/${{ env.ARTIFACT_NAME }}"}'
-        data: '{"artifactName": "${{ env.APP_NAME }}", "targetId": "${{ env.TARGET_ID }}"}'
-        customHeaders: '{"X-ANYPNT-ORG-ID": "${{ env.ORG_ID }}", "X-ANYPNT-ENV-ID": "${{ env.ENV_ID }}" }'
-        timeout: 1800000
+        mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+        -Dsonar.projectKey=aarabis-cg_mule-esb-crg-cicd \
+        clean deploy --file pom.xml \
+        -DclientId=${{ secrets.CA_CLIENT_ID }} \
+        -DclientSecret=${{ secrets.CA_CLIENT_SECRET }}

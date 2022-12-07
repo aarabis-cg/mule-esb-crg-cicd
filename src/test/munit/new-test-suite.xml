@@ -8,13 +8,10 @@
 		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
 		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
 	<munit:config name="new-test-suite.xml" />
-	<munit:test name="new-test-suiteTest" doc:id="d5cdfdf4-7dea-44b1-b1b9-1f5dc392981c" >
+	<munit:test name="new-test-suite-cicd-demoFlowTest" doc:id="818d1416-4c93-498b-add6-c1d837851156" description="Test">
 		<munit:execution >
-			<flow-ref doc:name="mule-esb-crg-cicdFlow" doc:id="c684756b-5b07-42f3-ba66-2d7c2f82598b" name="mule-esb-crg-cicdFlow"/>
+			<flow-ref doc:name="Flow-ref to cicd-demoFlow" doc:id="6ab8b8c0-3b39-4d65-bedf-4b05d1dee3e1" name="cicd-demoFlow"/>
 		</munit:execution>
-		<munit:validation >
-			<munit-tools:assert-equals doc:name="payload" doc:id="8e3f5c1e-cfaa-47e0-a618-601454778a8d" actual="#[payload]" expected="Hello CI/CD from Github Actions"/>
-		</munit:validation>
 	</munit:test>
 
 </mule>
