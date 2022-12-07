@@ -70,7 +70,23 @@ jobs:
               "url": "http://0.0.0.0/"
             }
           ]
-        repositories: '[{ "id": "MuleRepository", "url": "https://repository.mulesoft.org/nexus-ee/content/repositories/releases-ee/" }]'
+        plugin_groups: >
+          [
+            "org.mule.tools"
+          ]
+        repositories: >
+          [
+            { 
+              "id": "MuleRepository", 
+              "url": "https://repository.mulesoft.org/nexus-ee/content/repositories/releases-ee/",
+              "releases": {
+                "enabled": "true"
+              },
+              "snapshots": {
+                "enabled": "true"
+              }
+            }
+          ]
     - name: View settings.xml
       run: cat /home/runner/.m2/settings.xml   
     - name: Build, Analyze and Deploy
