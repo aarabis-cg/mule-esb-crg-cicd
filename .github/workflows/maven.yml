@@ -50,6 +50,16 @@ jobs:
               "id": "MuleRepository",
               "username": "${{ secrets.NEXUS_USERNAME}}",
               "password": "${{ secrets.NEXUS_PASSWORD}}"
+            },
+            {
+              "id": "anypoint-exchange-v3",
+              "username": "~~~Client~~~",
+              "password": "${{ secrets.CA_CLIENT_ID}}~?~${{secrets.CA_CLIENT_SECRET }}"
+            },
+            {
+              "id": "anypoint-exchange-v2",
+              "username": "~~~Client~~~",
+              "password": "${{ secrets.CA_CLIENT_ID}}~?~${{secrets.CA_CLIENT_SECRET }}"
             }
           ]
         mirrors: >
@@ -61,6 +71,8 @@ jobs:
             }
           ]
         repositories: '[{ "id": "MuleRepository", "url": "https://repository.mulesoft.org/nexus-ee/content/repositories/releases-ee/" }]'
+    - name: View settings.xml
+      run: cat /home/runner/.m2/settings.xml   
     - name: Build, Analyze and Deploy
       env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}  # Needed to get PR information, if any
