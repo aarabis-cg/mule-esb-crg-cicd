@@ -21,7 +21,6 @@
 	</properties>
 
 	<build>
-		<finalName>mule-esb-crg-cicd-demo</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
